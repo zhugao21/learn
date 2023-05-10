@@ -2,35 +2,37 @@ package code
 
 // 输入整数数组 arr ，找出其中最小的 k 个数。例如，输入4、5、1、6、2、7、3、8这8个数字，则最小的4个数字是1、2、3、4。
 func getLeastNumbers(arr []int, k int) []int {
-	var length = len(arr)
-	if length < k {
-		return nil
-	}
-	quickSort(arr, 0, length-1)
+	splitLeastNumbers(arr, k, 0, len(arr)-1)
 	return arr[:k]
 }
 
-func quickSort(arr []int, start, end int) {
-	if start >= end {
+func splitLeastNumbers(nums []int, k, start, end int) {
+	pos := quickSearchLeastNumbers(nums, start, end)
+	if pos == k {
 		return
+	} else if pos < k {
+		splitLeastNumbers(nums, k, pos+1, end)
+	} else {
+		splitLeastNumbers(nums, k, start, pos-1)
 	}
+}
 
+// 快速查找，不需要排序，只需要确定左边都小于该值，右边都大于该值
+func quickSearchLeastNumbers(nums []int, start, end int) int {
+	if start >= end {
+		return start
+	}
 	var i, j = start, end
-	var base = arr[start]
+	var base = nums[start]
 	for i < j {
-		// 先从end端开始判断
-		for i < j && arr[j] >= base {
+		for i < j && nums[j] >= base {
 			j--
 		}
-		// 再从start端开始判断
-		for i < j && arr[i] <= base {
+		for i < j && nums[i] <= base {
 			i++
 		}
-		if i < j {
-			arr[i], arr[j] = arr[j], arr[i]
-		}
+		nums[i], nums[j] = nums[j], nums[i]
 	}
-	arr[start], arr[i] = arr[i], arr[start]
-	quickSort(arr, start, i-1)
-	quickSort(arr, i+1, end)
+	nums[i], nums[start] = nums[start], nums[i]
+	return i
 }

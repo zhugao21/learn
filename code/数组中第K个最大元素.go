@@ -1,43 +1,39 @@
 package code
 
 func findKthLargest(nums []int, k int) int {
-	TopKSplit(nums, len(nums)-k, 0, len(nums)-1)
+	split(nums, len(nums)-k, 0, len(nums)-1)
 	return nums[len(nums)-k]
 }
 
-func Parition(nums []int, start, stop int) int {
-	if start >= stop {
-		return -1
+func split(nums []int, k, start, end int) {
+	pos := quickSearch(nums, start, end)
+	if pos == k {
+		return
+	} else if pos < k {
+		split(nums, k, pos+1, end)
+	} else {
+		split(nums, k, start, pos-1)
 	}
-	pivot := nums[start]
-	l, r := start, stop
-	for l < r {
-		for l < r && nums[r] >= pivot {
-			r--
-		}
-		nums[l] = nums[r]
-		for l < r && nums[l] < pivot {
-			l++
-		}
-		nums[r] = nums[l]
-	}
-	// 循环结束，l与r相等
-	// 确定基准元素pivot在数组中的位置
-	nums[l] = pivot
-	return l
 }
 
-func TopKSplit(nums []int, k, start, stop int) {
-	if start < stop {
-		index := Parition(nums, start, stop)
-		if index == k {
-			return
-		} else if index < k {
-			TopKSplit(nums, k, index+1, stop)
-		} else {
-			TopKSplit(nums, k, start, index-1)
-		}
+// 快速查找，不需要排序，只需要确定左边都小于该值，右边都大于该值
+func quickSearch(nums []int, start, end int) int {
+	if start >= end {
+		return start
 	}
+	var i, j = start, end
+	var base = nums[start]
+	for i < j {
+		for i < j && nums[j] >= base {
+			j--
+		}
+		for i < j && nums[i] <= base {
+			i++
+		}
+		nums[i], nums[j] = nums[j], nums[i]
+	}
+	nums[i], nums[start] = nums[start], nums[i]
+	return i
 }
 
 //func findKthLargest(nums []int, k int) int {
