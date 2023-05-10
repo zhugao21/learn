@@ -3,40 +3,35 @@ package code
 // 1-2-3-4-5 k=2
 // 2-1 3-4-5
 func reverseKGroup(head *ListNode, k int) *ListNode {
-	var cur = head
-	var newHead, tail *ListNode
-
+	var length int
+	cur := head
 	for cur != nil {
-		tmp, tmpCur := reverseKList(cur, k)
-		if newHead == nil {
-			newHead = tmp
-		}
-		if tail == nil {
-			tail = cur
-		} else {
-			tail.Next = tmp
-			tail = cur
-		}
-		cur = tmpCur
+		cur = cur.Next
+		length++
 	}
 
+	var newHead, tail *ListNode
+	cur = head
+	for i := 0; i < length/k; i++ {
+		tmpHead, nextHead := reverseKList(cur, k)
+		if newHead == nil {
+			newHead = tmpHead
+		}
+		if tail != nil {
+			tail.Next = tmpHead
+		}
+		tail = cur
+		cur = nextHead
+	}
+	if cur != nil {
+		tail.Next = cur
+	}
 	return newHead
 }
 
 func reverseKList(head *ListNode, k int) (*ListNode, *ListNode) {
 	var pre *ListNode
-	cur := head
-
-	var cp = head
-	var count int
-	for cp != nil && count < k {
-		count++
-		cp = cp.Next
-	}
-	if count < k {
-		return head, nil
-	}
-
+	var cur = head
 	for cur != nil && k > 0 {
 		next := cur.Next
 		cur.Next = pre
@@ -44,7 +39,6 @@ func reverseKList(head *ListNode, k int) (*ListNode, *ListNode) {
 		cur = next
 		k--
 	}
-
 	return pre, cur
 }
 
