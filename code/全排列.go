@@ -15,6 +15,7 @@ func permuteNums(nums []int, start, end int, res *[][]int) {
 
 	if start == end {
 		*res = append(*res, cp)
+		return
 	}
 	for i := start; i <= end; i++ {
 		cp[i], cp[start] = cp[start], cp[i]
