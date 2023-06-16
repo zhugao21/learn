@@ -10,9 +10,9 @@ func longestCommonSubsequence(text1 string, text2 string) int {
 	}
 
 	for j := 1; j < y; j++ {
-		char1 := text2[j]
+		char1 := text2[j-1]
 		for i := 1; i < x; i++ {
-			char2 := text1[i]
+			char2 := text1[i-1]
 			if char1 == char2 {
 				dp[j][i] = dp[j-1][i-1] + 1
 			} else {
