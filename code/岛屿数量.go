@@ -13,8 +13,10 @@ func numIslands(grid [][]byte) int {
 	}
 
 	var count int
+	// 遍历所有节点，
 	for j := 0; j < y; j++ {
 		for i := 0; i < x; i++ {
+			// 当节点为1时，深度遍历，把相邻的1都标记一下
 			if grid[j][i] == '1' && !visit[j][i] {
 				count++
 				numIslandsDfs(grid, i, j, visit)

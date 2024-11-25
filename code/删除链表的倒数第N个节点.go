@@ -1,7 +1,7 @@
 package code
 
-//输入：head = [1,2,3,4,5], n = 2
-//输出：[1,2,3,5]
+// 输入：head = [1,2,3,4,5], n = 2
+// 输出：[1,2,3,5]
 func removeNthFromEnd(head *ListNode, n int) *ListNode {
 	var cur = head
 	for cur != nil && n > 0 {
@@ -39,4 +39,26 @@ func removeNthFromEnd01(head *ListNode, n int) *ListNode {
 	}
 	slow.Next = slow.Next.Next
 	return dummy.Next
+}
+
+// 输入：head = [1,2,3,4,5], n = 2
+// 输出：[1,2,3,5]
+func removeNthFromEnd02(head *ListNode, n int) *ListNode {
+	var cur = head
+	for n > 1 {
+		cur = cur.Next
+		n--
+	}
+
+	var newHead = &ListNode{}
+	newHead.Next = head
+	var newCur = newHead
+
+	for cur.Next != nil {
+		cur = cur.Next
+		newCur = newCur.Next
+	}
+
+	newCur.Next = newCur.Next.Next
+	return newHead.Next
 }

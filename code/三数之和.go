@@ -1,12 +1,13 @@
 package code
 
-//给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有和为 0 且不重复的三元组。
+// 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有和为 0 且不重复的三元组。
 func threeSum(nums []int) [][]int {
 	var res [][]int
 	if len(nums) < 3 {
 		return res
 	}
 	quickSort01(nums, 0, len(nums)-1)
+	//sort.Ints(nums)
 
 	for i := 0; i < len(nums)-2; i++ {
 		a := nums[i]
